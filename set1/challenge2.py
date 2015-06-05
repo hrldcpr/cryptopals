@@ -19,4 +19,4 @@ def main():
     b = decode_hex(b)
     c = bytes(x ^ y for x, y in zip(a, b))
 
-    print(encode_hex(c))
+    print(encode_hex(c) == b'746865206b696420646f6e277420706c6179')
