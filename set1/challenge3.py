@@ -29,19 +29,21 @@ def english():
             for c in line:
                     yield c
 
+def best_key(encrypted, target_distribution):
+    best = float('inf'), None
+
+    for key in range(256):
+        text = decrypt(encrypted, key).decode('ascii', errors='ignore')
+        d = difference(distribution(text), target_distribution), key
+        if d < best: best = d
+
+    return best
 
 @utilities.main(__name__)
 def main():
-    ENGLISH = distribution(english())
-
     X = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
-    x = decode_hex(X)
-    best = float('inf'), 0
-    for key in range(256):
-        text = decrypt(x, key).decode('ascii', errors='ignore')
-        d = difference(distribution(text), ENGLISH), key
-        if d < best: best = d
 
-    _, key = best
+    x = decode_hex(X)
+    _, key = best_key(x, distribution(english()))
     print(key)
     print(decrypt(x, key))
