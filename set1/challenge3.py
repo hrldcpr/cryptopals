@@ -41,9 +41,9 @@ def best_key(encrypted, target_distribution):
 
 @utilities.main(__name__)
 def main():
-    X = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
+    x = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
 
-    x = decode_hex(X)
+    x = decode_hex(x)
     _, key = best_key(x, distribution(english()))
     print(key)
     print(decrypt(x, key))

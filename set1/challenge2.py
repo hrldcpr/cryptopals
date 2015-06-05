@@ -12,11 +12,11 @@ def encode_hex(bs):
 
 @utilities.main(__name__)
 def main():
-    A = '1c0111001f010100061a024b53535009181c'
-    B = '686974207468652062756c6c277320657965'
+    a = '1c0111001f010100061a024b53535009181c'
+    b = '686974207468652062756c6c277320657965'
 
-    a = decode_hex(A)
-    b = decode_hex(B)
+    a = decode_hex(a)
+    b = decode_hex(b)
     c = bytes(x ^ y for x, y in zip(a, b))
 
     print(encode_hex(c))
