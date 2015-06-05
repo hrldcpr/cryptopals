@@ -23,21 +23,23 @@ def difference(a, b):
 def decrypt(encrypted, key):
     return bytes(x ^ key for x in encrypted)
 
+def ascii(bs):
+    return bs.decode('ascii', errors='ignore')
+
 def english():
     with open('/Users/harold/Documents/lit/erature/murakami.txt') as f:
         for line in f:
             for c in line:
                     yield c
 
+def score(encrypted, target_distribution, key):
+    return difference(distribution(ascii(decrypt(encrypted, key))),
+                      target_distribution)
+
 def best_key(encrypted, target_distribution):
-    best = float('inf'), None
+    return min((score(encrypted, target_distribution, key), key)
+               for key in range(256))
 
-    for key in range(256):
-        text = decrypt(encrypted, key).decode('ascii', errors='ignore')
-        d = difference(distribution(text), target_distribution), key
-        if d < best: best = d
-
-    return best
 
 @utilities.main(__name__)
 def main():
