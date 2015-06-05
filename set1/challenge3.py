@@ -27,7 +27,7 @@ def ascii(bs):
     return bs.decode('ascii', errors='ignore')
 
 def english():
-    with open('/Users/harold/Documents/lit/erature/murakami.txt') as f:
+    with open('set1/english.txt') as f:
         for line in f:
             for c in line:
                     yield c
