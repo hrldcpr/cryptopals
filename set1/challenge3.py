@@ -23,17 +23,17 @@ def difference(a, b):
 def decrypt(encrypted, key):
     return bytes(x ^ key for x in encrypted)
 
-def ascii(bs):
+def as_ascii(bs):
     return bs.decode('ascii', errors='ignore')
 
 def english():
     with open('set1/english.txt') as f:
         for line in f:
             for c in line:
-                    yield c
+                yield c
 
 def score(encrypted, target_distribution, key):
-    return difference(distribution(ascii(decrypt(encrypted, key))),
+    return difference(distribution(as_ascii(decrypt(encrypted, key))),
                       target_distribution)
 
 def best_key(encrypted, target_distribution):
