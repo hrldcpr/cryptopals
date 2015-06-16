@@ -10,6 +10,7 @@ def decrypt(x, key):
     aes = AES.new(key, AES.MODE_ECB)
     return aes.decrypt(x)
 
+
 @utilities.main(__name__)
 def main():
     key = b'YELLOW SUBMARINE'

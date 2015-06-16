@@ -30,7 +30,7 @@ def transpose(rows):
 def score(data, n):
     """average distance between successive pairs of blocks"""
     return statistics.mean(distance(a, b) for a, b in
-                           chunked(chunked(data, n), 2,))
+                           chunked(chunked(data, n), 2))
 
 
 @utilities.main(__name__)
