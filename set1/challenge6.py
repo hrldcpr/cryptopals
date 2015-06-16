@@ -6,7 +6,7 @@ import statistics
 import utilities
 
 from .challenge3 import best_key, distribution, english
-from .challenge5 import encrypt
+from .challenge5 import xor
 
 
 BITS = tuple(1 << i for i in range(8))
@@ -45,10 +45,11 @@ def main():
 
     columns = transpose(chunked(x, n, trailing=True))
     english_distribution = distribution(english())
-    key = bytes(best_key(list(filter(None, c)), english_distribution)
-                for c in columns)
+    key = bytes(best_key(list(filter(None, column)), english_distribution)
+                for column in columns)
+
     print(key)
-    print(encrypt(x, key))
+    print(xor(x, key).decode())
 
 
 # why should we expect smallest hamming distance from block to block?
@@ -85,10 +86,10 @@ def random_test(size, n):
     random_ascii = ''.join(random.choice(string.printable) for _ in range(size)).encode('ascii')
 
     tests = {
-        'bytes with byte key': encrypt(random_bytes, byte_key),
-        'bytes with ascii key': encrypt(random_bytes, ascii_key),
-        'ascii with byte key': encrypt(random_ascii, byte_key),
-        'ascii with ascii key': encrypt(random_ascii, ascii_key)
+        'bytes with byte key': xor(random_bytes, byte_key),
+        'bytes with ascii key': xor(random_bytes, ascii_key),
+        'ascii with byte key': xor(random_ascii, byte_key),
+        'ascii with ascii key': xor(random_ascii, ascii_key)
     }
     return {name: {n: score(encrypted, n) for n in range(2, 40)}
             for name, encrypted in tests.items()}

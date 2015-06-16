@@ -4,8 +4,8 @@ from .challenge1 import decode_hex
 from .challenge6 import chunked
 
 
-def score(x):
-    chunks = list(chunked(x, 16))
+def score(encrypted):
+    chunks = list(chunked(encrypted, 16))
     return len(set(chunks)) / len(chunks)
 
 

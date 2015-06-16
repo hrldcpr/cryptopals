@@ -1,7 +1,7 @@
 
 import utilities
 
-from .challenge3 import best_key, decode_hex, decrypt, distribution, english
+from .challenge3 import best_score_key, decode_hex, distribution, english, xor
 
 
 @utilities.main(__name__)
@@ -13,7 +13,7 @@ def main():
         for line in f:
             utilities.flushprint('.')
             line = line.strip()
-            d = best_key(decode_hex(line), english_distribution), line
+            d = best_score_key(decode_hex(line), english_distribution), line
             if d < best:
                 best = d
                 print(best)
@@ -21,5 +21,5 @@ def main():
 
     (_, key), line = best
     print(line)
-    print(key)
-    print(decrypt(decode_hex(line), key))
+    print(bytes((key,)))
+    print(xor(decode_hex(line), key).decode())

@@ -9,6 +9,6 @@ def main(name):
         return f
     return decorator
 
-def flushprint(s):
-    sys.stdout.write(s)
+def flushprint(text):
+    sys.stdout.write(text)
     sys.stdout.flush()
