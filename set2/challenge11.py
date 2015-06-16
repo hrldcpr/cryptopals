@@ -29,10 +29,8 @@ def encryption_oracle(text):
         return encrypt_cbc(text, key, random_bytes(16)), AES.MODE_CBC
 
 def guess_mode():
-    text = []
-    for offset in range(16):
-        text.append(pad(b'YELLOW SUBMARINE' * 2, 32 + offset))
-    encrypted, mode = encryption_oracle(b''.join(text))
+    text = b'x' * 100
+    encrypted, mode = encryption_oracle(text)
     if score(encrypted) < 1: # repeated chunks
         assert mode == AES.MODE_ECB
     else:
@@ -42,5 +40,5 @@ def guess_mode():
 
 @utilities.main(__name__)
 def main():
-    for _ in range(100):
-        print('ECB' if guess_mode() == AES.MODE_ECB else 'CBC')
+    for _ in range(1000):
+        utilities.flushprint('o' if guess_mode() == AES.MODE_ECB else 'O')
