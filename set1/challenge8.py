@@ -1,5 +1,3 @@
-import statistics
-
 import utilities
 
 from .challenge1 import decode_hex
