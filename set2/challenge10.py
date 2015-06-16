@@ -5,10 +5,19 @@ import utilities
 
 from set1.challenge5 import xor
 from set1.challenge6 import chunked
-from set1.challenge7 import decrypt as decrypt_ecb
+from set1.challenge7 import decrypt_ecb, encrypt_ecb
 
 
-def decrypt(encrypted, key, iv):
+def encrypt_cbc(text, key, iv):
+    encrypted = []
+    for chunk in chunked(text, 16):
+        chunk = bytes(chunk)
+        iv = encrypt_ecb(xor(iv, chunk), key)
+        encrypted.append(iv)
+    return b''.join(encrypted)
+
+
+def decrypt_cbc(encrypted, key, iv):
     text = []
     for chunk in chunked(encrypted, 16):
         chunk = bytes(chunk)
@@ -24,4 +33,7 @@ def main():
     with open('set2/challenge10.txt', 'rb') as f:
         x = base64.b64decode(f.read())
 
-    print(decrypt(x, key, iv))
+    y = decrypt_cbc(x, key, iv)
+
+    assert encrypt_cbc(y, key, iv) == x
+    print(y)
