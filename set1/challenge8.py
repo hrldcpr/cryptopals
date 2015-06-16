@@ -4,12 +4,15 @@ from .challenge1 import decode_hex
 from .challenge6 import chunked
 
 
-def score(encrypted):
+def repeats(encrypted):
     chunks = list(chunked(encrypted, 16))
-    return len(set(chunks)) / len(chunks)
+    return len(set(chunks)) < len(chunks)
 
 
 @utilities.main(__name__)
 def main():
     with open('set1/challenge8.txt') as f:
-        print(min(f, key=lambda x: score(decode_hex(x.strip()))))
+        likely_ecbs = [x for x in f if repeats(decode_hex(x.strip()))]
+
+    assert len(likely_ecbs) == 1
+    print(likely_ecbs[0])

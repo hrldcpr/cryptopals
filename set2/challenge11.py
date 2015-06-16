@@ -7,7 +7,7 @@ from Crypto.Cipher import AES
 import utilities
 
 from set1.challenge7 import encrypt_ecb
-from set1.challenge8 import score
+from set1.challenge8 import repeats
 from .challenge9 import pad
 from .challenge10 import encrypt_cbc
 
@@ -31,7 +31,7 @@ def encryption_oracle(text):
 def guess_mode():
     text = b'x' * 100
     encrypted, mode = encryption_oracle(text)
-    if score(encrypted) < 1: # repeated chunks
+    if repeats(encrypted):
         assert mode == AES.MODE_ECB
     else:
         assert mode == AES.MODE_CBC
