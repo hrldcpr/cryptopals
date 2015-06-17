@@ -49,5 +49,5 @@ def main():
 
     key = best_key(x, distribution(english()))
 
-    print(bytes((key,)))
+    print(bytes([key]))
     print(xor(x, key).decode())

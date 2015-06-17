@@ -21,5 +21,5 @@ def main():
 
     (_, key), line = best
     print(line)
-    print(bytes((key,)))
+    print(bytes([key]))
     print(xor(decode_hex(line), key).decode())
