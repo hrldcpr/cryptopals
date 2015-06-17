@@ -4,8 +4,8 @@ from .challenge1 import decode_hex
 from .challenge6 import chunked
 
 
-def repeats(encrypted):
-    chunks = list(chunked(encrypted, 16))
+def repeats(encrypted, n=16):
+    chunks = list(chunked(encrypted, n))
     return len(set(chunks)) < len(chunks)
 
 
