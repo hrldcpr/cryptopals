@@ -8,7 +8,6 @@ import utilities
 
 from set1.challenge7 import encrypt_ecb
 from set1.challenge8 import repeats
-from .challenge9 import pad
 from .challenge10 import encrypt_cbc
 
 
@@ -16,7 +15,7 @@ def random_bytes(n):
     return bytes(random.randrange(256) for _ in range(n))
 
 def pad16(text):
-    return pad(text, 16 * math.ceil(len(text) / 16))
+    return text.ljust(16 * math.ceil(len(text) / 16), b'\x00')
 
 def encryption_oracle(text):
     text = pad16(random_bytes(random.randint(5, 10))

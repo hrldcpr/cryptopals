@@ -33,6 +33,7 @@ def find_suffix(n):
             if encrypted[j:j+n] == target[j:j+n]:
                 suffix += bytes([b])
                 break
+        else: raise Exception("couldn't find byte after {}".format(suffix))
     return suffix
 
 @utilities.main(__name__)
@@ -43,4 +44,6 @@ def main():
     encrypted = encryption_oracle(random_bytes(n) * 2)
     assert encrypted[:n] == encrypted[n:2*n] # ECB
 
-    print(find_suffix(n))
+    suffix = find_suffix(n)
+    assert suffix == pad16(SUFFIX)
+    print(suffix)
