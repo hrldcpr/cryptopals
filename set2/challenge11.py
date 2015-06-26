@@ -18,7 +18,10 @@ def random_bytes(n):
 def pad16(text):
     return pad(text, 16 * math.ceil(len(text) / 16))
 
-def encryption_oracle(text):
+def unpad16(text):
+    return unpad(text, 16)
+
+def oracle(text):
     text = pad16(random_bytes(random.randint(5, 10))
                  + text
                  + random_bytes(random.randint(5, 10)))
@@ -28,9 +31,9 @@ def encryption_oracle(text):
     else:
         return encrypt_cbc(text, key, random_bytes(16)), AES.MODE_CBC
 
-def guess_mode():
+def guess_mode(oracle=oracle):
     text = b'x' * 100
-    encrypted, mode = encryption_oracle(text)
+    encrypted, mode = oracle(text)
     if repeats(encrypted):
         assert mode == AES.MODE_ECB
     else:

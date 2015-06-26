@@ -21,23 +21,22 @@ aGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBq
 dXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUg
 YnkK''')
 KEY = random_bytes(16)
-def encryption_oracle(text):
+def oracle(text):
     return encrypt_ecb(pad16(text + SUFFIX), KEY)
 
-def guess_block_size():
-    zero = encryption_oracle(b'')
-    for n in range(1, 40):
-        if encryption_oracle(b'x' * n)[n:2*n] == zero[:n]:
-            return n # 0th block has become 1st block
+def guess_block_size(oracle=oracle):
+    for n in range(2, 40):
+        if repeats(oracle(b'x' * n * 3), n):
+            return n
 
 def find_suffix(n):
     suffix = b''
-    for i in range(len(encryption_oracle(b''))):
+    for i in range(len(oracle(b''))):
         j = n * (i // n) # beginning of current chunk
         padding = b'x' * (n - 1 - (i % n))
-        target = encryption_oracle(padding)
+        target = oracle(padding)
         for b in range(256):
-            encrypted = encryption_oracle(padding + suffix + bytes([b]))
+            encrypted = oracle(padding + suffix + bytes([b]))
             if encrypted[j:j+n] == target[j:j+n]:
                 suffix += bytes([b])
                 break
@@ -47,10 +46,12 @@ def find_suffix(n):
 
 @utilities.main(__name__)
 def main():
+    guess_mode(lambda text: (oracle(text), AES.MODE_ECB))
+
     n = guess_block_size()
     assert n == 16
 
-    encrypted = encryption_oracle(random_bytes(n) * 2)
+    encrypted = oracle(random_bytes(n) * 2)
     assert encrypted[:n] == encrypted[n:2*n] # ECB
 
     suffix = find_suffix(n)

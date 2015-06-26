@@ -21,4 +21,5 @@ def main():
     y = pad(x, 20)
 
     assert y == b'YELLOW SUBMARINE\x04\x04\x04\x04'
+    assert unpad(y, 20) == x
     print(y)
