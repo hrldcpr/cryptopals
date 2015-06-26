@@ -13,6 +13,7 @@ from set2.challenge12 import guess_block_size
 KEY = random_bytes(16)
 USER_ROLE = b'user'
 SAFE_CHARS = '@' + bytes(range(16)).decode()
+PREFIX = b'email='
 
 def encrypt(text):
     return encrypt_ecb(pad16(text), KEY)
@@ -24,7 +25,7 @@ def parse_query(text):
     return urllib.parse.parse_qs(text)
 
 def profile_for(email):
-    if b'&' in email or b'=' in email: raise ValueError()
+    if '&' in email or '=' in email: raise ValueError()
     return urllib.parse.urlencode(( # order matters
         ('email', email),
         ('uid', 10),
@@ -32,7 +33,7 @@ def profile_for(email):
     ), safe=SAFE_CHARS).encode()
 
 def encrypted_profile_for(email):
-    return encrypt(profile_for(email))
+    return encrypt(profile_for(email.decode()))
 
 BASE_EMAIL = 'x{}@x.st'
 MIN_EMAIL_LENGTH = len(BASE_EMAIL.format(''))
@@ -50,22 +51,22 @@ def find_alignment(oracle=encrypted_profile_for):
 
 def make_admin_role(n, oracle=encrypted_profile_for):
     k = find_alignment()
-    assert (len(profile_for(b'')) + k) % n == 0
+    assert (len(profile_for('')) + k) % n == 0
     # push 'user' role into the final block, and then throw that out:
     encrypted = oracle(fake_email(k + len(USER_ROLE)))
     assert decrypt(encrypted[-n:]) == USER_ROLE
     encrypted_role = encrypted[:-n]
 
     # TODO don't use hardcoded pad16
-    assert len('email=') < n
-    encrypted_admin = oracle(fake_email(n - len('email=')) + pad16(b'admin'))[n:n*2]
+    assert len(PREFIX) < n
+    encrypted_admin = oracle(fake_email(n - len(PREFIX)) + pad16(b'admin'))[n:n*2]
 
     return encrypted_role + encrypted_admin
 
 
 @utilities.main(__name__)
 def main():
-    try: profile_for(b'foo@bar.com&role=admin')
+    try: profile_for('foo@bar.com&role=admin')
     except ValueError: pass
     else: assert False
 
