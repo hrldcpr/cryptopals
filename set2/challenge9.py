@@ -6,6 +6,13 @@ def pad(text, n):
     m = n - len(text)
     return text + bytes([m] * m)
 
+def unpad(text, n):
+    if text:
+        m = text[-1]
+        if m < n and text.endswith(bytes([m] * m)):
+            return text[:-m]
+    return text
+
 
 @utilities.main(__name__)
 def main():

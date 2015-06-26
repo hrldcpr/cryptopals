@@ -1,12 +1,20 @@
 
 import base64
+import math
+
+from Crypto.Cipher import AES
 
 import utilities
 
 from set1.challenge7 import encrypt_ecb
 from set1.challenge8 import repeats
-from .challenge11 import pad16, random_bytes
+from .challenge11 import guess_mode, random_bytes
 
+
+def pad16(text):
+    # we can't use PKCS#7 padding as in Challenge 9,
+    # because then shifting changes the padding values
+    return text.ljust(16 * math.ceil(len(text) / 16), b'\x00')
 
 SUFFIX = base64.b64decode('''Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkg
 aGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBq
@@ -35,6 +43,7 @@ def find_suffix(n):
                 break
         else: raise Exception("couldn't find byte after {}".format(suffix))
     return suffix
+
 
 @utilities.main(__name__)
 def main():
