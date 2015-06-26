@@ -12,7 +12,6 @@ from set2.challenge12 import guess_block_size
 
 KEY = random_bytes(16)
 USER_ROLE = b'user'
-SAFE_CHARS = '@' + bytes(range(16)).decode()
 PREFIX = b'email='
 
 def encrypt(text):
@@ -30,7 +29,7 @@ def profile_for(email):
         ('email', email),
         ('uid', 10),
         ('role', USER_ROLE)
-    ), safe=SAFE_CHARS).encode()
+    ), safe='@').encode()
 
 def encrypted_profile_for(email):
     return encrypt(profile_for(email.decode()))
@@ -57,9 +56,8 @@ def make_admin_role(n, oracle=encrypted_profile_for):
     assert decrypt(encrypted[-n:]) == USER_ROLE
     encrypted_role = encrypted[:-n]
 
-    # TODO don't use hardcoded pad16
     assert len(PREFIX) < n
-    encrypted_admin = oracle(fake_email(n - len(PREFIX)) + pad16(b'admin'))[n:n*2]
+    encrypted_admin = oracle(fake_email(n - len(PREFIX)) + b'admin')[n:n*2]
 
     return encrypted_role + encrypted_admin
 
