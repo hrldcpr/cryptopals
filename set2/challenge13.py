@@ -74,6 +74,7 @@ def main():
     assert n == 16
 
     encrypted = make_admin_role(n)
+
     profile = decrypt(encrypted)
     assert parse_query(profile)[b'role'] == [b'admin']
     print(profile)
