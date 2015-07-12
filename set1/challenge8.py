@@ -10,7 +10,7 @@ def repeats(encrypted, n=16):
     return len(set(chunks)) < len(chunks)
 
 
-@utilities.main(__name__)
+@utilities.main
 def main():
     with open('set1/challenge8.txt') as f:
         likely_ecbs = [x for x in f if repeats(decode_hex(x.strip()))]

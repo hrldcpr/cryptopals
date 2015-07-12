@@ -10,7 +10,7 @@ def xor(bites, key):
     return bytes(b ^ k for b, k in zip(bites, itertools.cycle(key)))
 
 
-@utilities.main(__name__)
+@utilities.main
 def main():
     x = b'''Burning 'em, if you ain't quick and nimble
 I go crazy when I hear a cymbal'''

@@ -26,7 +26,7 @@ def decrypt_cbc(encrypted, key, iv):
     return b''.join(text)
 
 
-@utilities.main(__name__)
+@utilities.main
 def main():
     key = b'YELLOW SUBMARINE'
     iv = bytes(0 for _ in key)

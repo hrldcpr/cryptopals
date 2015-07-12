@@ -44,7 +44,7 @@ def find_suffix(n):
     return suffix
 
 
-@utilities.main(__name__)
+@utilities.main
 def main():
     guess_mode(lambda text: (oracle(text), AES.MODE_ECB))
 

@@ -33,7 +33,7 @@ def score(data, n):
                            chunked(chunked(data, n), 2))
 
 
-@utilities.main(__name__)
+@utilities.main
 def main():
     assert hamming_distance(b'this is a test', b'wokka wokka!!!') == 37
 

@@ -13,7 +13,7 @@ def decrypt_ecb(encrypted, key):
     return AES.new(key, AES.MODE_ECB).decrypt(encrypted)
 
 
-@utilities.main(__name__)
+@utilities.main
 def main():
     key = b'YELLOW SUBMARINE'
     with open('set1/challenge7.txt') as f:

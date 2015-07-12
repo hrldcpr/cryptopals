@@ -2,12 +2,10 @@
 import sys
 
 
-def main(name):
-    def decorator(f):
-        if name == '__main__':
-            f()
-        return f
-    return decorator
+def main(f):
+    if f.__module__ == '__main__':
+        f()
+    return f
 
 def flushprint(text):
     sys.stdout.write(text)

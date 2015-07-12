@@ -62,7 +62,7 @@ def make_admin_role(n, oracle=encrypted_profile_for):
     return encrypted_role + encrypted_admin
 
 
-@utilities.main(__name__)
+@utilities.main
 def main():
     try: profile_for('foo@bar.com&role=admin')
     except ValueError: pass

@@ -4,7 +4,7 @@ import utilities
 from .challenge3 import best_score_key, decode_hex, distribution, english, xor
 
 
-@utilities.main(__name__)
+@utilities.main
 def main():
     english_distribution = distribution(english())
 

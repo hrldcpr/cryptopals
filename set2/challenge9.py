@@ -14,7 +14,7 @@ def unpad(text, n):
     return text
 
 
-@utilities.main(__name__)
+@utilities.main
 def main():
     x = b'YELLOW SUBMARINE'
 

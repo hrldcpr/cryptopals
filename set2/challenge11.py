@@ -41,7 +41,7 @@ def guess_mode(oracle=oracle):
     return mode
 
 
-@utilities.main(__name__)
+@utilities.main
 def main():
     for _ in range(1000):
         utilities.flushprint('o' if guess_mode() == AES.MODE_ECB else 'O')
