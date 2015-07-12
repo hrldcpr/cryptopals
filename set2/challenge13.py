@@ -6,8 +6,8 @@ from Crypto.Cipher import AES
 import utilities
 
 from set1.challenge7 import decrypt_ecb, encrypt_ecb
-from set2.challenge11 import guess_mode, pad16, random_bytes, unpad16
-from set2.challenge12 import guess_block_size
+from .challenge11 import guess_mode, pad16, random_bytes, unpad16
+from .challenge12 import guess_block_size
 
 
 KEY = random_bytes(16)
